@@ -79,6 +79,19 @@ router.route('/books')
         });
     })
 
+router.route('/books/:book_id')
+    .get(function(req, res){
+        Book.findById(req.params.book_id, function(err, book){
+            if (err)
+                res.send(err);
+            
+            res.json(book);
+        });
+});
+
+
+
+
 
 // start routes- i think.
 app.use('/api', router);
