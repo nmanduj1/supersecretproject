@@ -4,6 +4,8 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer({ dest: './uploads/'});
 var mongoose = require('mongoose');
 var Book = require('./app/models/book');
 
@@ -11,7 +13,6 @@ var Book = require('./app/models/book');
 // configure body parser - middleware parsers.  ASK MARK.
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 
 // set up our port- the mumbo jumbo is fancy stuff telling the app to use whatever port is available or 8080;
 var port = process.env.PORT || 8080;
@@ -55,10 +56,10 @@ app.get('/', function(req, res) {
 router.route('/books')
 
 // should create a book- POST supposedly accessed at http://localhost:8080/api/books
-    .post(function(req, res) {
+    .post(upload.array(), function(req, res) {
     
         var book = new Book(); // creates new book model
-        book.title = req.body.title;  // sets the book title Contains key-value pairs of data submitted in the request body.
+        book.title = req.body.title;  // sets the book title Contains key-value pairs of data submitted in the request body. book.title = 
         book.author = req.body.author; //Contains key-value pairs of data submitted in the request body.
     
         book.save(function(err){
@@ -87,9 +88,35 @@ router.route('/books/:book_id')
             
             res.json(book);
         });
+})  // NOTE: no semicolon!
+    
+    .put(function(req, res) { // starts put route - to update book title based on book ID
+        Book.findById(req.params.book_id, function(err, book) { // sets up which book to be updated
+            if (err) // establishes how to handle errors
+                res.send(err);
+            
+            book.title = req.body.title;  // updates book title;
+            
+            book.save(function(err) {  // save new book title
+                if (err)
+                    res.send(err);
+                
+                res.json({ message: 'Book title updated' }); // let user know book title was updated
+            });
+            
+    });
+}) // NOTE: no semicolon!
+
+    .delete(function(req, res){
+        Book.remove({
+            _id: req.params.book_id
+        }, function(err, book) {
+            if (err)
+                res.send(err);
+            
+            res.json({ message: 'deleted' });
+        });
 });
-
-
 
 
 
@@ -100,3 +127,6 @@ app.use('/api', router);
 // start server
 app.listen(port);
 console.log("Magic happening on port " + port);
+    
+    
+    

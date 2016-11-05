@@ -12,6 +12,7 @@
     "express": "^4.14.0",
     "mongoose": "*",
     "body-parser": "*",
-    "mongodb": "*"  
+    "mongodb": "*",  
+    "multer": "*"  
   }
 }
