@@ -9,6 +9,8 @@ var upload = multer({ dest: './uploads/'});
 var mongoose = require('mongoose');
 var Book = require('./app/models/book');
 
+// var User = require('./app/models/user');
+//  ^^ importing user module
 
 // configure body parser - middleware parsers.  ASK MARK.
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -55,7 +57,7 @@ app.get('/', function(req, res) {
 // set up specific route- for /books
 router.route('/books')
 
-// should create a book- POST supposedly accessed at http://localhost:8080/api/books
+// should create a book- POST  accessed at http://localhost:8080/api/books
     .post(upload.array(), function(req, res) {
         console.log(req.body);
         var book = new Book(); // creates new book model
