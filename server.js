@@ -57,11 +57,12 @@ router.route('/books')
 
 // should create a book- POST supposedly accessed at http://localhost:8080/api/books
     .post(upload.array(), function(req, res) {
-    
+        console.log(req.body);
         var book = new Book(); // creates new book model
-        book.title = req.body.title;  // sets the book title Contains key-value pairs of data submitted in the request body. book.title = 
+        book.title = req.body.title;  //sets the book title Contains key-value pairs of data submitted in the request body. book.title = 
+        
         book.author = req.body.author; //Contains key-value pairs of data submitted in the request body.
-    
+        console.log(book);
         book.save(function(err){
             if (err)
                 res.send(err);
