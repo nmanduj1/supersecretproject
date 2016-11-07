@@ -98,6 +98,7 @@ router.route('/books/:book_id')
             
             book.title = req.body.title;  // updates book title;
             
+            book.author = req.body.author;
             book.save(function(err) {  // save new book title
                 if (err)
                     res.send(err);
@@ -121,8 +122,8 @@ router.route('/books/:book_id')
 
 
 
-// start routes- i think.
-app.use('/api', router);
+// start routes - sets up initial extension in this case "/boooo/"- Nothing to do with mongoose dB.
+app.use('/boooo', router);
 
 
 // start server
