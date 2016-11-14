@@ -9,9 +9,13 @@ var upload = multer({ dest: './uploads/'});
 var mongoose = require('mongoose');
 var Book = require('./app/models/book');
 
-// var User = require('./app/models/user');
+var User = require('./app/models/user');
 //  ^^ importing user module
+var userRoutes = require('./userRoutes.js');
 
+                         
+                         
+                         
 // configure body parser - middleware parsers.  ASK MARK.
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -125,7 +129,8 @@ router.route('/books/:book_id')
 
 
 // start routes - sets up initial extension in this case "/boooo/"- Nothing to do with mongoose dB.
-app.use('/boooo', router);
+app.use('/sun', router);
+app.use('/sun', userRoutes);
 
 
 // start server
