@@ -1,4 +1,6 @@
 var express = require('express');
+var User = require('./app/models/user');
+
 
 module.exports = (function() {
  'use strict';
