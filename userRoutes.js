@@ -15,9 +15,12 @@ router.route('/users')
     .post(function(req, res) {
         console.log(req.body);
         var user = new User(); // creates new user model
-        user.name = req.body.name;  //sets the user name 
-    
+        user.firstName = req.body.firstName;  //sets the user name 
+		//user
+    	user.lastName = req.body.lastName;
         user.userName = req.body.userName;
+		user.email = req.body.email;
+		
         console.log(user);
         user.save(function(err){
             if (err)
@@ -51,9 +54,11 @@ router.route('/users/:user_id')
             if (err) // establishes how to handle errors
                 res.send(err);
             
-            user.name = req.body.name;  // updates user's name;
-            
-            user.userName = req.body.userName;
+            user.firstName = req.body.firstName;  //sets the user name 
+		    user.lastName = req.body.lastName;
+		    user.userName = req.body.userName;
+			user.email = req.body.email;
+				
             user.save(function(err) {  // save updated user info
                 if (err)
                     res.send(err);
