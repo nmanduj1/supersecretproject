@@ -7,10 +7,14 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var upload = multer({ dest: './uploads/'});
 var mongoose = require('mongoose');
-var Book = require('./app/models/book');
+var jwt    = require('jsonwebtoken');
 
+var config = require('./config');
+var Book = require('./app/models/book');
 var User = require('./app/models/user');
 //  ^^ importing user module
+
+
 var userRoutes = require('./userRoutes.js');
 
                          
@@ -25,7 +29,10 @@ var port = process.env.PORT || 8080;
 
 
 // connect our database (also see var mongoose and var book called ^^ at the start.  they also set up our DB)
-mongoose.connect('mongodb://localhost:27017/api');
+mongoose.connect(config.database);
+app.set('superSecret', config.secret);
+
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', console.log.bind(console, "we're connected!"));
@@ -54,6 +61,56 @@ router.get('/', function(req, res) {
 app.get('/', function(req, res) {
     res.json({ message: 'yay!' });
 });
+
+
+
+
+
+
+
+// route to authenticate a user (POST http://localhost:8080/sun/auth)
+router.post('/auth', function(req, res) {
+
+  // find the user
+  User.findOne({
+    userName: req.body.userName // look through userNames in db and compare to the request that was received
+  }, function(err, user) {
+
+    if (err) throw err;
+
+    if (!user) { // if user not found, 
+      res.json({ success: false, message: 'You sure you have the right name?' });
+    } else if (user) { // if user === true
+
+      if (user.password != req.body.password) { // if password doesnt match
+        res.json({ success: false, message: 'Wrong PW!  Sry, try again' });
+      } else {
+
+        // if user is found and password is right
+        // create a token
+        var token = jwt.sign(user, app.get('superSecret'), {
+          // expiresInMinutes: 1440 // expires in 24 hours
+        });
+
+        // return the information including token as JSON
+        res.json({
+          success: true,
+          message: 'You pass',
+          token: token
+        });
+      }   
+
+    }
+
+  });
+});
+
+
+
+
+
+
+
 
 
 

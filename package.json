@@ -9,10 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.14.0",
-    "mongoose": "*",
     "body-parser": "*",
-    "mongodb": "*",  
-    "multer": "*"  
+    "express": "^4.14.0",
+    "jsonwebtoken": "^7.1.9",
+    "mongodb": "*",
+    "mongoose": "*",
+    "multer": "*"
   }
 }

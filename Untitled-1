@@ -1,0 +1,6 @@
+module.exports = {
+
+    'secret': 'neuralWork',
+    'database': 'mongodb:'mongodb://localhost:27017/api'
+
+};

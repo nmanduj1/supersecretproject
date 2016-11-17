@@ -20,7 +20,8 @@ router.route('/users')
     	user.lastName = req.body.lastName;
         user.userName = req.body.userName;
 		user.email = req.body.email;
-		
+		user.password = req.body.password;
+    
         console.log(user);
         user.save(function(err){
             if (err)
