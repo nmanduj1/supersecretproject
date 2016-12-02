@@ -59,6 +59,7 @@ router.route('/users/:user_id')
 		    user.lastName = req.body.lastName;
 		    user.userName = req.body.userName;
 			user.email = req.body.email;
+      		user.password = req.body.password;
 				
             user.save(function(err) {  // save updated user info
                 if (err)

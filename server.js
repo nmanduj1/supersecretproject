@@ -12,7 +12,6 @@ var jwt    = require('jsonwebtoken');
 var config = require('./config');
 var Book = require('./app/models/book');
 var User = require('./app/models/user');
-//  ^^ importing user module
 
 
 var userRoutes = require('./userRoutes.js');
@@ -37,6 +36,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', console.log.bind(console, "we're connected!"));
 
+//db.users.remove({_id: 'USER_ID'});
 
 
 //  create our router
@@ -65,6 +65,7 @@ app.get('/', function(req, res) {
 
 
 
+//app.use('/sun', userRoutes);
 
 
 
@@ -106,7 +107,29 @@ router.post('/auth', function(req, res) {
 });
 
 
-
+router.use(function(req, res, next) {
+    
+    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    
+    if (token) {
+        jwt.verify(token, app.get('superSecret'), function(err, decoded){
+            if (err) {
+                return res.json({success: false, message: "no access" });
+            }
+            else {
+                res.json({ message: 'congrats you got here'});
+                req.decoded = decoded;
+                next();
+            }
+        });
+    }
+    else {
+        return res.status(403).send({
+            success: false,
+            message: "no token"
+        });
+    }
+});
 
 
 
