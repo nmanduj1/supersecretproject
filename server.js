@@ -73,7 +73,8 @@ app.use('/sun', userRoutes);
 
 
 
-/* 
+
+
 // route to authenticate a user (POST http://localhost:8080/sun/auth)
 router.post('/auth', function(req, res) {
 
@@ -92,7 +93,7 @@ router.post('/auth', function(req, res) {
         res.json({ success: false, message: 'Wrong PW!  Sry, try again' });
       } else {
 
-        // if user is found and password is right
+        // if user is fo00und and password is right
         // create a token
         var token = jwt.sign(user, app.get('superSecret'), {
           // expiresInMinutes: 1440 // expires in 24 hours
@@ -122,7 +123,7 @@ router.use(function(req, res, next) {
                 return res.json({success: false, message: "no access" });
             }
             else {
-                res.json({ message: 'congrats you got here'});
+                // res.json({ message: 'congrats you got here'});
                 req.decoded = decoded;
                 next();
             }
@@ -138,7 +139,6 @@ router.use(function(req, res, next) {
 
 
 
-*/
 
 
 
