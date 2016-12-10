@@ -1,0 +1,14 @@
+body {
+    font-family: "Myriad Pro", serif;
+    max-width: 1300px;
+    margin: auto;
+}
+
+
+.backPic {
+    width: 100%;
+    height: 33.25em;
+    background-image: url("http://2.bp.blogspot.com/-3h_6R1DAJUI/U_IGtjfCQGI/AAAAAAAAGHQ/bxRFQF4T8VE/s1600/tsundoku.jpg");
+    background-repeat: no-repeat;
+    padding-top: 1.25em;
+}
