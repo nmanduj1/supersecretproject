@@ -7,9 +7,12 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var upload = multer({ dest: './uploads/'});
 var mongoose = require('mongoose');
-var jwt    = require('jsonwebtoken');
+var jwt = require('jsonwebtoken');
+var passport = require('passport');
+var FBStrategy = require('passport-facebook').Strategy;
 
 var config = require('./config');
+
 var Book = require('./app/models/book');
 var User = require('./app/models/user');
 
@@ -23,7 +26,27 @@ var bookRoutes = require('./bookRoutes.js');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// set up our port- the mumbo jumbo is fancy stuff telling the app to use whatever port is available or 8080;
+
+passport.use(new FBStrategy({
+    //clientID: , //unsure if this should contain userID or appId
+    //clientSecret:  // same uncertainty as above
+    callbackURL: "http://localhost:3030/login/facebook/return" // once approved, users will be redirected to this page.
+},
+   function(accessToken, refreshToken, profile, done) { // the stuff following this line should save the fb profile with a user record in db............ - according to github ex.
+        User.findOrCreate(..., function(err, user) {
+            if (err) { return done(err); }
+            done(null, user);
+        });
+    }                                              
+));
+
+
+app.get('/auth/facebook', passport.authenticate('facebook')); // redirects user for fb auth
+app.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/login' }));
+
+
+
+// set up our port- the mumbo jumbo is fancy stuff telling the app to use environment variable available or 8080;
 var port = process.env.PORT || 8080;
 
 
@@ -36,10 +59,8 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', console.log.bind(console, "we're connected!"));
 
-//db.users.remove({_id: 'USER_ID'});
 
-
-//  create our router
+//  create route handlers
 var router = express.Router();  
 
 

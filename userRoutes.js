@@ -16,7 +16,6 @@ router.route('/users')
         console.log(req.body);
         var user = new User(); // creates new user model
         user.firstName = req.body.firstName;  //sets the user name 
-		//user
     	user.lastName = req.body.lastName;
         user.userName = req.body.userName;
 		user.email = req.body.email;
